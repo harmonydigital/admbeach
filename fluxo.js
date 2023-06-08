@@ -264,7 +264,7 @@ function login(){
                     sessionStorage.setItem("nameValueStorage",nameValue);
                     bodyDocument.style.cssText='overflow:auto;'
                     
-                }else if(nameValue==='goodvibes' & userPass==='3030'){ 
+                }else if(nameValue==='canoaspraia' & userPass==='3030'){ 
                     
                     admLogin=true  
                     document.getElementById('login').style.cssText="display:none;"
@@ -766,7 +766,7 @@ function  fluxo(){
                     <ul>
                         <li><a href="">Inicio</a></li>
                         <li><a href="closeds.html">Fechamentos</a></li>
-                        <li><a href="https://harmonydigital.github.io/updateFlexDelivery/">Alterar Cardápio</a></li>
+                        <li><a href="https://harmonydigital.github.io/updatebeachbar/">Alterar Cardápio</a></li>
                     </ul>
                 </div>
 
