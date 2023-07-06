@@ -4,6 +4,8 @@ bodyDocument=document.getElementsByTagName('body')[0]
 var app=document.getElementById('app') 
 inputMesa=document.getElementById('mesa')
 repeat=false
+
+balcaopedidos=[]
  
 fullScreen=()=>{
     var element = document.documentElement;
@@ -47,7 +49,6 @@ function innnerOrderItens(dataKey,tipo,obs){
                                 if(idTable==mOrder.idPedido){
 
                                     mOrder.itens.forEach(itensFor => { 
-                                        console.log(itensFor)
                                         containerTable=document.getElementById(idTable)  
                                         thisprice=itensFor.price 
                                         itensQtd+=1 
@@ -163,7 +164,72 @@ function innnerOrderItens(dataKey,tipo,obs){
        })
    
    
-    } 
+    }else if(tipo==='balcao'){
+        var itensQtd=0
+        var totalTicket=0
+        balcaopedidos.map((balcaomap)=>{
+
+        
+
+        
+                balcaomap.orders.map((mOrder)=>{ 
+                        var tabslss=Array.from(document.getElementsByTagName('table'))
+
+                       
+                            tabslss.forEach(element => {
+                                idTable=element.getAttribute('id')
+                                if(idTable==mOrder.idPedido){
+
+                                    mOrder.itens.forEach(itensFor => { 
+                                        containerTable=document.getElementById(idTable)  
+                                        thisprice=itensFor.price 
+                                        itensQtd+=1 
+
+                                        if(itensFor.name!=undefined){
+
+
+                                            calctotalprod=thisprice*itensFor.quantidade
+                                            totalTicket+=calctotalprod
+                                          
+                                            containerTable.innerHTML+=`
+                                                    <tr>
+                                                        <th>`+itensFor.name+`</th> 
+                                                        <th>00`+itensQtd+`</th> 
+                                                        <th>00`+itensFor.quantidade+`</th> 
+                                                        <th style="text-align: right;">`+calctotalprod+`</th> 
+                                                    </tr> 
+
+                                                ` 
+                                        }
+
+                                    });
+                                }
+                                
+                            });
+                }) 
+
+                itensQtd=0
+                ios=0.5
+
+                totalbruto=ios+totalTicket
+                document.getElementById('subTotal').innerHTML=`
+                Total da compra `+totalbruto.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
+                        
+                cupomContainer.innerHTML+=`
+                <table>
+                    <tr>
+                        <th>DINHEIRO<br>IMPOSTOS 0.50</br>TROCO</th>
+                        <th><h5 class="totalCupom">TOTAL`+totalbruto.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})+` </h5></th> 
+                    </tr>
+                    
+                     
+                </table>
+                `
+
+                
+       
+        })
+    }
 
     // COLETA DADOS FINANCEIRO
     totalMesaContainer=document.getElementById('subTotal')
@@ -211,13 +277,13 @@ function login(){
         app.innerHTML+=`  
                 <div id="login">    
                     <div class="form">
-                        <img class="logo" src="assets/img/logo.png">
+                        <img class="logo" src="assets/images/logo.png">
                         <div>
                             <h3>Gerencie seus pedidos</h3>
                         </div>
                         <form>
 
-                            <input autofocusonfocus="inputFocus()" outfocus="inputOutFocus()" type='text' id='nameuser' placeholder='Nome de Usuário'>
+                            <input autofocus autofocusonfocus="inputFocus()" outfocus="inputOutFocus()" type='text' id='nameuser' placeholder='Nome de usuário'>
                             <input type="password" id="pass" placeholder='Senha' name="password" minlength="4" required>
                             <button class="btn-bottom" onclick='validationLogin(event, nameuser, pass)'>Entrar</button>
                             <a style="
@@ -264,7 +330,7 @@ function login(){
                     sessionStorage.setItem("nameValueStorage",nameValue);
                     bodyDocument.style.cssText='overflow:auto;'
                     
-                }else if(nameValue==='canoaspraia' & userPass==='3030'){ 
+                }else if(nameValue==='goodvibes' & userPass==='3030'){ 
                     
                     admLogin=true  
                     document.getElementById('login').style.cssText="display:none;"
@@ -451,6 +517,8 @@ function  fluxo(){
     // FUNÇÃO OBTEM LISTA DE CUPONS FISCAIS DA MESA
           
     tabledetails=(datakey, tipo)=>{    
+
+ 
        
        containerMesaDetails=document.getElementById('openTable')  
        containerMesaDetails.classList.toggle("show") 
@@ -528,7 +596,7 @@ function  fluxo(){
                     mesasMap.orders.map((mOrder)=>{
                        if(cupomContainer){
                         var idTabelCupom=mOrder.idPedido
-                        obs=mOrder.observacao
+                        obs='Pedido Balcao'
                             
                         cupomContainer.innerHTML+=` 
                             
@@ -561,15 +629,12 @@ function  fluxo(){
                     })
 
                     innnerOrderItens(key,'mesa',obs)
-                }else{
-                    // console.log('else',key)
-
                 }
             })
 
             containerMesaDetails.innerHTML+=`
                 <button class="printAll" onclick="getPrint(this)">
-                    <img src="assets/img/printer.png" > Imprimir tudo 
+                    <img src="assets/images/printer.png" > Imprimir tudo 
                 </button> 
                 
                 <div class="qr">  
@@ -591,7 +656,8 @@ function  fluxo(){
 
                         if(cupomContainer){
                             var idTabelCupom=dOrder.idPedido
-                            obs=dOrder.observacao
+                            obs='Pedido Balcao'
+
                         
                             cupomContainer.innerHTML+=` 
                                 
@@ -637,7 +703,7 @@ function  fluxo(){
 
             containerMesaDetails.innerHTML+=`
             <button class="printAll" onclick="getPrint(this)">
-                <img src="assets/img/printer.png" > Imprimir tudo 
+                <img src="assets/images/printer.png" > Imprimir tudo 
             </button> 
             
             <div class="qr">  
@@ -646,6 +712,55 @@ function  fluxo(){
                 
             </div>
         `
+        }else if(tipo==='balcao'){
+             
+            balcaopedidos.map((mapBalcao)=>{
+                
+                if(cupomContainer){ 
+                mapBalcao.orders.map((mOrder)=>{
+                
+                 var idTabelCupom=mOrder.idPedido
+                 obs='Pedido Balcao'
+
+                     
+                 cupomContainer.innerHTML+=` 
+                     
+                         <table id=`+mOrder.idPedido+`>
+                             <tr>
+                                 <th><h5>CUPOM FISCAL  </h5></th> 
+                                 <th> </th>  
+                             </tr>
+                             <tr> 
+                                 <th>DATA:`+mOrder.data+`/ HORA `+mOrder.hora+`</th> 
+
+                                 <th> </th> 
+                             </tr> 
+                             <tr>
+                                 
+                                 <th>OBS:`+obs+` </th> 
+                             </tr> 
+                             <tr class="headtable">
+                                 <th>DESCRIÇÃO</th> 
+                                 <th>ITEM</th> 
+                                 <th>QTD.</th> 
+                                 <th style="text-align: right;">VALOR</th> 
+                             </tr>
+                         </table>
+                         <span class="line"></span> 
+                 
+                 `
+               
+                  
+
+             })
+            }   
+          
+             innnerOrderItens(key,'balcao')
+             
+            })
+           
+
+            
         }
 
  
@@ -702,7 +817,7 @@ function  fluxo(){
         }else{
 
            // MESA EXISTENTE
-            console.log('Pedido Adicionado com sucesso')
+            // console.log('Pedido Adicionado com sucesso')
             alert('Pedido Adicionado com sucesso')
 
             var newOrder={
@@ -743,16 +858,33 @@ function  fluxo(){
                         <i class="fa-regular fa-user" style="color:red;"></i>
                         Olá <strong>`+credentials+`</strong>, bem-vindo! 
                     </div> 
-                    <h2>Administre seus pedidos aqui.</h2>
+                    <h2>Gerêncie seus pedidos aqui.</h2>
                 </div>
 
+ 
+
                 <div id="menu">
+
                     <div  onclick='menuToggle()'>
-                        <i class="fa-solid fa-bars"></i>      
+                          
+                        <button>
+                        <i class="fa-solid fa-bars"></i>
+                        <span>menu</span>
+                        </button>
                     </div>
+
                     <div id="ftotal"> R$ 0,00   </div>
-                    <div id=" ">..</div>
+
+                    <div onclick='neworders()' >
+                        <button>
+                        <i class="fa-solid fa-file-invoice"></i>
+                        <span>novo</span>
+                        </button>
+
+                    </div>
                 </div>
+
+
 
                 <div id="menu-nav" class="menu-nav">
                     <div class="controls">
@@ -765,8 +897,8 @@ function  fluxo(){
                     </div>  
                     <ul>
                         <li><a href="">Inicio</a></li>
-                        <li><a href="closeds.html">Fechamentos</a></li>
-                        <li><a href="https://harmonydigital.github.io/updatebeachbar/">Alterar Cardápio</a></li>
+                        <li><a target="_blank" href="closeds.html">Fechamentos</a></li>
+                        <li><a target="_blank" href="https://harmonydigital.github.io/updateFlexDelivery/">Alterar Cardápio</a></li>
                     </ul>
                 </div>
 
@@ -787,12 +919,13 @@ function  fluxo(){
             </div>
 
             <div id="msgLoad" class="msgLoad">
-            <img src="assets/img/logo.png">
+            <img src="assets/images/logo.png">
             <h3>Aguarde </h3>
             <p>Fechando conta ..</p>
-            <img src="assets/img/loading.gif">
+            <img src="assets/images/loading.gif">
             <!-- <button>Cancelar</button>  -->
           </div>
+
                 <!--Container de dados -->
                 <div class="data_container">
 
@@ -811,7 +944,23 @@ function  fluxo(){
                                 <h6>Delivery</h6>   
                                 <span id="nSalesDeliverys" class="price">..</span>
                             </div>    
-                    </div>    
+                        </div>   
+                        <div class="flx">
+                            <div class="card red"> 
+                                <span id="" class="tooltip">..</span>
+
+                                <h6>Contas Fechadas hoje</h6>   
+                                <span id="" class="price">..</span>
+                            </div>
+                            <div class="card" onclick="tabledetails('balcao','balcao')" > 
+                            <span id="nSalesBoard" class="tooltip">..</span>
+
+
+                                <h6>Vendas balcão:</h6>   
+                                <span id="nOrdersBoard" class="price">..</span>
+                              
+                            </div>    
+                        </div>     
                 </div>    
 
 
@@ -886,7 +1035,7 @@ function  fluxo(){
                         <h5 id="titleAdd">Adicione Pedidos</h5> 
                         <div id="innerMesaNumber"></div> 
 
-                        <form>
+                        <form id='formNewOrder'>
                             <input id='mesa' onclick='tableValidation()' type='number' placeholder='Numero da Mesa'>
                             <input id='searchInput' onfocus="searched(event, searchInput)" onclick='searched(event, searchInput)' type='name' placeholder='Busque Produtos'>
                             
@@ -894,7 +1043,6 @@ function  fluxo(){
                                 Adicionar Pedido
                             </button>
                         </form>
-                        <div id="searchResult"></div>
 
                 </div> 
                 

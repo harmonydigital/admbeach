@@ -3,8 +3,11 @@ relatorioFinanceiro=document.getElementById('relatorioFinanceiro')
 notificacao=document.getElementById('notificacao')
 notQtd=document.getElementById('notQtd')
 VENDASOPENOW=[];
+nOrders=0 
 mesasData=0
 deliverysData=0
+balcaoData=0
+somaProdTotalbalcao=0
 
 faturamentoatual=document.getElementById('faturamentoatual')
 ftotal=document.getElementById('ftotal')
@@ -14,15 +17,13 @@ pedidosDeliveryAtuais=document.getElementById('pedidosDeliveryAtuais')
 
 relatorioFaturamentoAtual=document.getElementById('relatorioFaturamentoAtual')
 vendasareceber=document.getElementById('vendasareceber')
-// console.log(vendasareceber)
-
-
+ 
 toogleNot=(id)=>{ 
   document.getElementById(id).classList.toggle('show')  
 }
 
 innerSequenceOrders=(notDataBase)=>{
- 
+ console.log('not')
   notificacoesData=notDataBase 
 
   notificacoesData.length>0?  notQtd.innerHTML=`<span>`+notificacoesData.length+`</span>` : console.log('')
@@ -123,7 +124,21 @@ appNotification=(todosPedidos,tipo)=>{
  
 
 if(todosPedidos.length>0){
- 
+
+
+        if(tipo=='balcao'){ 
+          balcaoData={
+            "tipo":'balcao',
+            "data":todosPedidos, 
+          }
+        }else if(tipo=='delivery'){
+          deliverysData={
+            "tipo":'Deliverys',
+            "data":todosPedidos, 
+          }  
+        }
+
+       
       if(tipo=="mesa"){ 
  
         NUMEROMESASABERTASNOMOMENTO=todosPedidos.length  
@@ -147,20 +162,20 @@ if(todosPedidos.length>0){
    
 
         if(todosPedidos.length>0){
-          deliverysData={
-            "tipo":'Deliverys',
-            "data":todosPedidos, 
-          }   
+          // deliverysData={
+          //   "tipo":'Deliverys',
+          //   "data":todosPedidos, 
+          // }   
       
         }
     }
     
  
 
-    if(mesasData!=0 || deliverysData!=0){
-    VENDASOPENOW=[mesasData,deliverysData] 
+    if(mesasData!=0 || deliverysData!=0 | balcaoData!=0){
+    VENDASOPENOW=[mesasData,deliverysData,balcaoData] 
     }
-   setTimeout(allData(), 3000);
+   setTimeout(allData(), 2000);
 
   }
 }
@@ -178,6 +193,7 @@ if(todosPedidos.length>0){
   tpedMesa=0
   somaProdTotalMesas=0
   totaldaCompra=0
+  totaldaCompraBalcao=0
 
 
    // VAR FOR NEW DESIGN PATHERS
@@ -187,6 +203,10 @@ if(todosPedidos.length>0){
    nOrdersDeliverys=document.getElementById('nOrdersDeliverys')
    nSalesDeliverys=document.getElementById('nSalesDeliverys')
 
+   nOrdersBoard=document.getElementById('nOrdersBoard')
+   nSalesBoard=document.getElementById('nSalesBoard')
+
+ 
   
   // console.log("admLogin",admLogin)
   
@@ -194,7 +214,7 @@ if(todosPedidos.length>0){
     relatorioFinanceiro.innerHTML=''  
     // console.log(relatorioFinanceiro)
   }
- 
+ console.log(VENDASOPENOW)
   if(VENDASOPENOW.length>0){
 
     VENDASOPENOW.map((vatualMap)=>{
@@ -212,13 +232,14 @@ if(todosPedidos.length>0){
 
               delOrdersMap.itens.map((dimap)=>{
                // LISTA DE TODOS OS PEDIDOS NAS MESAS GERALconsole.log(dimap)
-                // console.log(dimap)
+            
 
                 if(dimap.name){
                   somaProdTotalMesas+=dimap.quantidade*dimap.price 
                   if(totalfaturamentomesas){
-                      totalfaturamentomesas.innerHTML=`Total Vendas Mesas<strong style="margin: 0 5px;">`+ somaProdTotalMesas.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})+`</strong> `;
-                      nSalesTables.innerHTML=``+ somaProdTotalMesas.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})+` `;
+                      console.log('>>',somaProdTotalMesas)
+                      nSalesTables.innerHTML=`
+                      `+ somaProdTotalMesas.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})+` `;
                      
                     }
                 } 
@@ -234,9 +255,9 @@ if(todosPedidos.length>0){
           })
 
         }else if(vatualMap.tipo=='Deliverys'){
-         
+          console.log('vatualMap.tipo',vatualMap.tipo)
+        
           deliveryRelatorio.innerHTML=`Delivery vendas atuais (`+vatualMap.data.length+`)`;
-          nOrders=0
           vatualMap.data.map((dataMap)=>{ 
 
             nOrders+=dataMap.orders.length
@@ -262,19 +283,54 @@ if(todosPedidos.length>0){
               }) 
 
           
-            pedidosDeliveryAtuais.innerHTML=`Pedidos Delivery em curso (`+nOrders+`)`;
+            // pedidosDeliveryAtuais.innerHTML=`Pedidos Delivery em curso (`+nOrders+`)`;
             nOrdersDeliverys.innerHTML=` `+nOrders+` `;
             // 
             // totalfaturamentodelivery.innerHTML=`Total Vendas Delivery total()`;
           })
+          
+        }else if(vatualMap.tipo=='balcao'){
+          
 
+          vatualMap.data.map((dataMap)=>{ 
+ 
+           
+            dataMap.orders.map((pedidoDelMap)=>{
+                pedidoDelMap.itens.map((mapDelI)=>{ 
+                  
+
+                  var custoporquantidade=mapDelI.price*mapDelI.quantidade
+                  totaldaCompraBalcao+=custoporquantidade
+                  
+                   somaProdTotalbalcao=totaldaCompraBalcao
+
+                  
+                     
+                  totaldaCompraBalcao
+                    nOrdersBoard.innerHTML=` 
+                    `+somaProdTotalbalcao.toLocaleString('pt-br',
+                    {style: 'currency', currency: 'BRL'})+``;
+
+
+                    // nOrdersBoard.innerHTML=`oi `
+               
+                })
+
+              }) 
+
+          
+            pedidosDeliveryAtuais.innerHTML=`Pedidos Delivery em curso (`+nOrders+`)`;
+            nOrdersDeliverys.innerHTML=` `+nOrders+` `;
+            // nSalesTables
+            // totalfaturamentodelivery.innerHTML=`Total Vendas Delivery total()`;
+          })
         }
 
       }
     })
      
 
-      var FATURAATUAL=somaProdTotalMesas+somaProdTotalDelivery
+      var FATURAATUAL=somaProdTotalMesas+somaProdTotalDelivery+somaProdTotalbalcao
 
       
       ftotal.innerHTML=` Total ` +FATURAATUAL.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) +``;  
