@@ -86,7 +86,7 @@ function innnerOrderItens(dataKey,tipo,obs){
                 cupomContainer.innerHTML+=`
                 <table>
                     <tr>
-                        <th>DINHEIRO<br>IMPOSTOS 0.50</br>TROCO</th>
+                        <!-- <th>DINHEIRO<br>IMPOSTOS 0.50</br>TROCO</th> -->
                         <th><h5 class="totalCupom">TOTAL`+totalbruto.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})+` </h5></th> 
                     </tr>
                     
@@ -153,7 +153,8 @@ function innnerOrderItens(dataKey,tipo,obs){
                 cupomContainer.innerHTML+=`
                 <table>
                     <tr>
-                        <th>DINHEIRO<br>IMPOSTOS 0.50</br>TROCO</th>
+                    <!-- <th>DINHEIRO<br>IMPOSTOS 0.50</br>TROCO</th> -->
+
                         <th><h5 class="totalCupom">TOTAL`+totalbruto.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})+` </h5></th> 
                     </tr>
                     
@@ -218,7 +219,8 @@ function innnerOrderItens(dataKey,tipo,obs){
                 cupomContainer.innerHTML+=`
                 <table>
                     <tr>
-                        <th>DINHEIRO<br>IMPOSTOS 0.50</br>TROCO</th>
+                    <!-- <th>DINHEIRO<br>IMPOSTOS 0.50</br>TROCO</th> -->
+
                         <th><h5 class="totalCupom">TOTAL`+totalbruto.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})+` </h5></th> 
                     </tr>
                     
@@ -534,38 +536,18 @@ function  fluxo(){
                     <i class="fa-solid fa-xmark"></i> 
                 </button>    
             </div> 
-            <div id="badgemesa"></div>
+            <div id="badgemesa"></div> 
             
-
             <!--HEAD CUPOM FISCAL -->
             <div id="CFData"> 
                 <div class="card">
-                    <h5> Adega Good Vibes </h5>
-                    <p> BR/101 Marafunda nº  999 /<br> ubatuba  - sp </p>
-
-                    <table>
-                        <tr>
-                            <th>CNPJ: 00.000.000/003-00</th>
-                            <th style="text-align: right;">06/01/2023</th> 
-                        </tr>
-                        <tr>
-                            <th>IE: 10.458.648-1</th>
-                            <th style="text-align: right;">12:12:39</th> 
-                        </tr>
-                        <tr>
-                            <th>IM: 08641569</th>
-                            <th style="text-align: right;">ccf:120289</th> 
-                        </tr> 
-                    </table>
-
-                    <span class="line"></span>
-
+                    <h5> Canoas Praia Bar</h5>
+                    <p> Praia da Lagoinha /<br> Ubatuba  - sp </p>  
+                    <span class="line"></span>   
                     <div id="cuponsContainer"></div>
 
                 </div>
-            </div>
-
-
+            </div> 
 
             <div id="dataOrder"> 
                 <div id="subTotal">Total da Compra</div>
@@ -602,7 +584,7 @@ function  fluxo(){
                             
                                 <table id=`+mOrder.idPedido+`>
                                     <tr>
-                                        <th><h5>CUPOM FISCAL  </h5></th> 
+                                        <th><h5>CUPOM   </h5></th> 
                                         <th> </th>  
                                     </tr>
                                     <tr> 
@@ -898,7 +880,7 @@ function  fluxo(){
                     <ul>
                         <li><a href="">Inicio</a></li>
                         <li><a target="_blank" href="closeds.html">Fechamentos</a></li>
-                        <li><a target="_blank" href="https://harmonydigital.github.io/updatebeachbar/">Alterar Cardápio</a></li>
+                        <li><a target="_blank" href="https://lidneyr.github.io/update/">Alterar Cardápio</a></li>
                     </ul>
                 </div>
 
