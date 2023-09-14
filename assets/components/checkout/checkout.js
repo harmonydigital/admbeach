@@ -82,7 +82,7 @@ formaRetirada=()=>{
      
         setMesa.style.cssText="display:none" 
         whatsappId.style.cssText="display:none"  
-
+        console.log(setMesa)
     }
 
 
