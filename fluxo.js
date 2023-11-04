@@ -332,7 +332,7 @@ function login(){
                     sessionStorage.setItem("nameValueStorage",nameValue);
                     bodyDocument.style.cssText='overflow:auto;'
                     
-                }else if(nameValue==='canoaspraia' & userPass==='181818'){ 
+                }else if(nameValue==='adm' & userPass==='102030'){ 
                     
                     admLogin=true  
                     document.getElementById('login').style.cssText="display:none;"

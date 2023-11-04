@@ -21,7 +21,7 @@ img.logo {
 }
 #login button {
     margin: 20px auto 0;
-    background-color: #ff5400;
+    background-color: red;
     max-width: 225px;
 }
 
